@@ -1,0 +1,2 @@
+# comma-delimited list of mods which can use the postgres API
+secure.postgres_api.trusted_mods (trusted mods) string

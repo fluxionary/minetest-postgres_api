@@ -1,0 +1,11 @@
+{
+    "type": "MOD",
+    "name": "postgres_api",
+    "title": "postgres_api",
+    "license": "AGPL-3.0-or-later",
+    "media_license": "CC-BY-SA-4.0",
+    "repo": "https://github.com/fluxionary/minetest-postgres_api.git",
+    "website": "https://github.com/fluxionary/minetest-postgres_api",
+    "issue_tracker": "https://github.com/fluxionary/minetest-postgres_api/issues",
+    "short_description": "hello, can you tell me what i am?"
+}
