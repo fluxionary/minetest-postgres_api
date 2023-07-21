@@ -12,7 +12,7 @@ NOTE: THIS IS UNFINISHED AND NOT CURRENTLY FUNCTIONAL
 
 ## usage
 
-first, you must add your mod to `postgres_api.trusted_mods` in minetest.conf.
+first, you must add your mod to `secure.postgres_api.trusted_mods` in minetest.conf.
 
 ```lua
 -- connections must be initialized while your mod is initializing
