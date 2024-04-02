@@ -37,7 +37,7 @@ end
 
 local function check_connection(connection)
 	if not connection then
-		return nil, "out-of-memory or unable to send the connection command at all."
+		return nil, "out of memory, or unable to send the connection command at all."
 	end
 	if connection:status() == pgsql.CONNECTION_OK then
 		return connection
@@ -79,10 +79,7 @@ PGresult *PQprepare(PGconn *conn,
 ]]
 function PreparedStatement:_init(connection, name, command, ...)
 	-- connection is properly private because minetest lacks debug.getupvalue (thanks to me!)
-	local result = connection:prepare(name, command, ...)
-	check_result(connection, name, result)
 	self._name = name
-	-- keep the connection private
 	function self._exec(...)
 		local exec_result = connection:execPrepared(name, ...)
 
@@ -137,7 +134,7 @@ function Connection:_init(connection)
 		check_description(description)
 
 		local result
-		if #{ ... } > 0 then
+		if select("#", ...) > 0 then
 			result = connection:execParams(command, ...)
 		else
 			result = connection:exec(command)
@@ -147,6 +144,12 @@ function Connection:_init(connection)
 	end
 
 	function self._prepare(name, command, ...)
+		local result = connection:prepare(name, command, ...)
+		local _, errormsg = check_result(connection, name, result)
+		if errormsg then
+			return nil, errormsg
+		end
+
 		return PreparedStatement(connection, name, command, ...)
 	end
 
