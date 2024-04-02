@@ -1,8 +1,12 @@
+--[[
+https://github.com/arcapos/luapgsql/blob/master/luapgsql.c
+https://www.postgresql.org/docs/current/libpq-connect.html
+]]
+
 local private_env = ...
 local pgsql = private_env.pgsql
 
 local f = string.format
-local S = postgres_api.S
 
 local trusted_mods = {}
 
@@ -95,13 +99,14 @@ end
 local Connection = futil.class()
 
 function postgres_api.get_connection(connspec)
-	assert(not mods_loaded, S("connections can only be created while mods are loading."))
+	assert(not mods_loaded, f("connections can only be created while mods are loading."))
 	local current_modname = minetest.get_current_modname()
 	assert(
 		trusted_mods[current_modname],
-		S(
-			"in order to get a connection, %s must be added to postgres_api.trusted_mods in minetest.conf. "
-				.. "see README.md for more information."
+		f(
+			"in order to get a connection, %s must be added to secure.postgres_api.trusted_mods in minetest.conf. "
+				.. "see README.md for more information.",
+			current_modname
 		)
 	)
 	return Connection(connspec)
@@ -144,7 +149,7 @@ function Connection:_init(connspec)
 	end
 
 	function self._reconnect()
-		connection = check_connection(pgsql.connectdb(connspec))
+		connection:reset()
 	end
 
 	function self._is_connected()
