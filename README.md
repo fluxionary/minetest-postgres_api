@@ -44,9 +44,9 @@ postgres_api.get_connection({
 
 connection:exec([[
     CREATE TABLE IF NOT EXISTS user (
-        id                INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY
-      , name              TEXT    NOT NULL
-      , password          TEXT    NOT NULL
+        id       INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY
+      , name     TEXT    NOT NULL
+      , password TEXT    NOT NULL
     )
 ]])
 
@@ -55,7 +55,7 @@ function my_mod.add_user(name, password)
 end
 
 -- only store prepared statements in locally-accessible variables. leaking them might be dangerous!
-local add_users_prepared = connection:prepare("add users", "INSERT INTO user (name, password) VALUES (?, ?)")
+local add_users_prepared, erromsg = connection:prepare("add users", "INSERT INTO user (name, password) VALUES (?, ?)")
 function mod_mod.bulk_add_users(data)
     for _, datum in ipairs(data) do
         local _, erromsg = add_users_prepared:exec(unpack(datum))
