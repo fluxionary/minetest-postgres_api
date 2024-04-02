@@ -7,5 +7,5 @@
     "repo": "https://github.com/fluxionary/minetest-postgres_api.git",
     "website": "https://github.com/fluxionary/minetest-postgres_api",
     "issue_tracker": "https://github.com/fluxionary/minetest-postgres_api/issues",
-    "short_description": "hello, can you tell me what i am?"
+    "short_description": "a postgres API. requires an insecure environment and luapgsql."
 }

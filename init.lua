@@ -10,4 +10,4 @@ postgres_api = fmod.create(nil, {
 	pgsql = pgsql,
 })
 
-postgres_api.dofile("api", "init")
+postgres_api.dofile("api")
