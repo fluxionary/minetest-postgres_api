@@ -109,10 +109,7 @@ function postgres_api.get_connection(connspec)
 			current_modname
 		)
 	)
-	return Connection(connspec)
-end
 
-function Connection:_init(connspec)
 	if type(connspec) == "table" then
 		connspec = f(
 			"postgres://%s:%s@%s:%s/%s",
@@ -124,8 +121,17 @@ function Connection:_init(connspec)
 		)
 	end
 
-	-- this is properly private because minetest lacks debug.getupvalue (thanks to me!)
-	local connection = check_connection(pgsql.connectdb(connspec))
+	local connection, errormsg = check_connection(pgsql.connectdb(connspec))
+
+	if errormsg then
+		return nil, errormsg
+	end
+
+	return Connection(connection)
+end
+
+function Connection:_init(connection)
+	-- connection is properly private because minetest lacks debug.getupvalue (thanks to me!)
 
 	function self._exec(description, command, ...)
 		check_description(description)
